@@ -5,24 +5,22 @@ server {
         index index.html index.htm index.nginx-debian.html;
         server_name server1;
 		
-		location /static/ {
-		    root /opt/venv/site/static;		
-		}
-		
-		location /admin/ {
-		
-        if ($request_uri ~* (X_CST_TOKEN) ) {
-           return 301 $request_uri;
-        }
-        proxy_pass http://127.0.0.1:8888;
+        location /static/ {
+           root /opt/venv/site/static;		
         }
 		
-		location ~ / {
+        location /admin/ {
+           if ($request_uri ~* (X_CST_TOKEN) ) {
+              return 301 $request_uri;
+        }
+           proxy_pass http://127.0.0.1:8888;
+        }
 		
-		if ($uri !~ "^(.*)/(static/*)") {
-			return 403;
-		}
-		add_header CST_HEADER $server_name;
-		proxy_pass http://127.0.0.1:8888;
-		}
+        location ~ / {
+           if ($uri !~ "^(.*)/(static/*)") {
+              return 403;
+           }
+           add_header CST_HEADER $server_name;
+           proxy_pass http://127.0.0.1:8888;
+        }
 }
