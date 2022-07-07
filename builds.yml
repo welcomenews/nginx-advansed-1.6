@@ -1,0 +1,43 @@
+.build: &same_build
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  before_script:
+    - echo "${DOCKER_AUTH_CONFIG}" > /kaniko/.docker/config.json
+  script:
+    - /kaniko/executor --context ${build_context} --destination $build_image
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^feature/'
+    - if: '$CI_COMMIT_BRANCH =~ /^release/'
+      when: manual
+  
+build:sync:
+  <<: *same_build
+  variables:
+    build_context: git://gitlab+deploy:1JuaRpHuXBW@git.pul/sync.git#refs/heads/develop
+    build_image: registry.pul/sync:${CI_PIPELINE_ID}
+  tags:
+    - k8s-stage-gitlab
+    - k8s-dev-gitlab
+  
+
+build:async:
+  <<: *same_build
+  variables:
+    build_context: git://gitlab+deploy:szLyuF4Tn@git.pul/async.git#refs/heads/develop
+    build_image: registry.pul/async:${CI_PIPELINE_ID}
+  tags:
+    - k8s-stage-gitlab
+    - k8s-dev-gitlab
+
+
+build:consumer:
+  <<: *same_build
+  variables:
+    build_context: git://gitlab+deploy:9pC1syW@git.pul/consumer.git#refs/heads/develop
+    build_image: registry.pul/consumer:${CI_PIPELINE_ID}
+  tags: 
+    - k8s-stage-gitlab
+    - k8s-dev-gitlab
+  
