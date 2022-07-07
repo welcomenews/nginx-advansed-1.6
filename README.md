@@ -1,0 +1,1 @@
+# nginx-advansed-1.6
