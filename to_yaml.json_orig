@@ -1,0 +1,37 @@
+{
+   "metadata":{
+      "grand_total_entities":13,
+      "total_entities":13
+   },
+   "entities":[
+      {
+         "logical_timestamp":15,
+         "vlan_id":1,
+         "ip_config":{
+            "prefix_length":0,
+            "dhcp_options":{     
+            },
+            "pool":[
+            ]
+         },
+         "uuid":"e54c9466-9ff9-434c-88b1-d5bd33995b34",
+         "name":"DefaultVLAN"
+      },
+      {
+         "logical_timestamp":17,
+         "vlan_id":1002,
+         "ip_config":{
+            "network_address":"10.1.14.0",
+            "dhcp_options":{
+               "domain_name":"pul",
+            },
+            "pool":[
+               {
+                  "range":"10.1.15.151 10.1.15.200"
+               }
+            ],
+         },
+         "uuid":"edad06a3-29df-458d-974a-d7f32e951967",
+      }
+   ]
+}
